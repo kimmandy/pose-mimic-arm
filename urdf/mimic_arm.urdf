@@ -1,0 +1,153 @@
+<?xml version="1.0"?>
+<!--
+  A simple 6-axis arm for simulation. At zero joint angles the arm points
+  straight up; positive shoulder/elbow angles tip it forward (+x), toward a
+  person standing in front of the robot.
+
+  pose_mimic_arm.kinematics reads the joints from this file, so the IK and
+  RViz always use the same geometry. Lengths are in metres.
+    base to shoulder  0.18
+    upper arm         0.40
+    forearm           0.35
+    wrist             0.06 + 0.06 + 0.05 (flange)
+-->
+<robot name="mimic_arm">
+
+  <material name="base_grey"><color rgba="0.25 0.27 0.30 1.0"/></material>
+  <material name="arm_white"><color rgba="0.88 0.89 0.91 1.0"/></material>
+  <material name="joint_blue"><color rgba="0.18 0.42 0.78 1.0"/></material>
+  <material name="tool_orange"><color rgba="0.95 0.55 0.15 1.0"/></material>
+
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 0.05"/>
+      <geometry><cylinder radius="0.09" length="0.10"/></geometry>
+      <material name="base_grey"/>
+    </visual>
+  </link>
+
+  <joint name="joint1" type="revolute">
+    <parent link="base_link"/>
+    <child link="link1"/>
+    <origin xyz="0 0 0.10"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-3.05" upper="3.05" effort="100" velocity="3.0"/>
+  </joint>
+
+  <link name="link1">
+    <visual>
+      <origin xyz="0 0 0.04"/>
+      <geometry><cylinder radius="0.065" length="0.08"/></geometry>
+      <material name="arm_white"/>
+    </visual>
+  </link>
+
+  <joint name="joint2" type="revolute">
+    <parent link="link1"/>
+    <child link="link2"/>
+    <origin xyz="0 0 0.08"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-2.0" upper="2.0" effort="100" velocity="3.0"/>
+  </joint>
+
+  <link name="link2">
+    <visual>
+      <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+      <geometry><cylinder radius="0.07" length="0.14"/></geometry>
+      <material name="joint_blue"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0.20"/>
+      <geometry><cylinder radius="0.05" length="0.40"/></geometry>
+      <material name="arm_white"/>
+    </visual>
+  </link>
+
+  <joint name="joint3" type="revolute">
+    <parent link="link2"/>
+    <child link="link3"/>
+    <origin xyz="0 0 0.40"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-0.1" upper="2.6" effort="100" velocity="3.0"/>
+  </joint>
+
+  <link name="link3">
+    <visual>
+      <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+      <geometry><cylinder radius="0.06" length="0.12"/></geometry>
+      <material name="joint_blue"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0.175"/>
+      <geometry><cylinder radius="0.04" length="0.35"/></geometry>
+      <material name="arm_white"/>
+    </visual>
+  </link>
+
+  <joint name="joint4" type="revolute">
+    <parent link="link3"/>
+    <child link="link4"/>
+    <origin xyz="0 0 0.35"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-2.2" upper="2.2" effort="50" velocity="4.0"/>
+  </joint>
+
+  <link name="link4">
+    <visual>
+      <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+      <geometry><cylinder radius="0.045" length="0.10"/></geometry>
+      <material name="joint_blue"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0.03"/>
+      <geometry><cylinder radius="0.035" length="0.06"/></geometry>
+      <material name="arm_white"/>
+    </visual>
+  </link>
+
+  <joint name="joint5" type="revolute">
+    <parent link="link4"/>
+    <child link="link5"/>
+    <origin xyz="0 0 0.06"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-2.2" upper="2.2" effort="50" velocity="4.0"/>
+  </joint>
+
+  <link name="link5">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 1.5708 0"/>
+      <geometry><cylinder radius="0.04" length="0.09"/></geometry>
+      <material name="joint_blue"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0.03"/>
+      <geometry><cylinder radius="0.032" length="0.06"/></geometry>
+      <material name="arm_white"/>
+    </visual>
+  </link>
+
+  <joint name="joint6" type="revolute">
+    <parent link="link5"/>
+    <child link="link6"/>
+    <origin xyz="0 0 0.06"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-3.05" upper="3.05" effort="30" velocity="5.0"/>
+  </joint>
+
+  <link name="link6">
+    <visual>
+      <origin xyz="0 0 0.025"/>
+      <geometry><cylinder radius="0.035" length="0.05"/></geometry>
+      <material name="tool_orange"/>
+    </visual>
+  </link>
+
+  <joint name="tool_joint" type="fixed">
+    <parent link="link6"/>
+    <child link="tool0"/>
+    <origin xyz="0 0 0.05"/>
+  </joint>
+
+  <link name="tool0"/>
+
+</robot>
